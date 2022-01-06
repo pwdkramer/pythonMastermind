@@ -41,11 +41,24 @@ def makeCode(diff):
             print("Error with range of roll in makeCode()")
     return secret_code
 
+#get guess from user
+def getGuess(diff):
+    print("Please enter your guess of four colors.")
+    if diff == "n":
+        print("The colors to choose from are: R, Y, G, U")
+    elif diff == "h":
+        print("The colors to choose from are R, Y, G, B, B, W")
+    else:
+        print("Error with diff in getGuess()")
+    
+    print("Please enter your guess:")
+    user_guess = input().upper
+
 
 print("Welcome to Mastermind!")
 
 #select difficulty
 diff = chooseDifficulty()
 secret_code = makeCode(diff)
-print(diff)
+
 print(secret_code)
