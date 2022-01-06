@@ -43,16 +43,34 @@ def makeCode(diff):
 
 #get guess from user
 def getGuess(diff):
+    valid_colors = "RYGU"
     print("Please enter your guess of four colors.")
     if diff == "n":
         print("The colors to choose from are: R, Y, G, U")
     elif diff == "h":
+        valid_colors += "BW"
         print("The colors to choose from are R, Y, G, B, B, W")
     else:
         print("Error with diff in getGuess()")
     
     print("Please enter your guess:")
-    user_guess = input().upper
+    user_guess = input().upper()
+    valid_guess = True
+    if len(user_guess) != 4:
+        valid_guess = False
+    for i in range(len(user_guess)):
+        if user_guess[i] not in valid_colors:
+            valid_guess = False
+    while valid_guess == False:
+        print("Illegal guess: Please enter 4 letters from the list of possible colors:")
+        user_guess = input().upper()
+        valid_guess = True
+        if len(user_guess) != 4:
+            valid_guess = False
+        for i in range(len(user_guess)):
+            if user_guess[i] not in valid_colors:
+                valid_guess = False
+    return user_guess
 
 
 print("Welcome to Mastermind!")
@@ -60,5 +78,6 @@ print("Welcome to Mastermind!")
 #select difficulty
 diff = chooseDifficulty()
 secret_code = makeCode(diff)
+user_guess = getGuess(diff)
 
 print(secret_code)
