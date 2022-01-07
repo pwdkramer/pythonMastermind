@@ -72,6 +72,35 @@ def getGuess(diff):
                 valid_guess = False
     return user_guess
 
+#compare userGuess with secret code and provide feedback
+def compareCode(secret_code, user_guess):
+    game_won = False
+    if secret_code == user_guess: #correct guess, user wins
+        game_won = True
+    else: #provide feedback on guess
+        perfect_pins = 0
+        wrong_position = 0
+        temp_code = ""
+        temp_guess = ""
+        for i in range(len(user_guess)): #check for perfect pins
+            if user_guess[i] == secret_code[i]:
+                perfect_pins += 1
+            else:
+                temp_code += secret_code[i]
+                temp_guess += user_guess[i]
+        temp_code_list = [char for char in temp_code]
+        temp_guess_list = [char for char in temp_guess]
+        for i in range(len(temp_guess_list)): #check for right color wrong position
+            for j in range(len(temp_code_list)):
+                if temp_guess_list[i] == temp_code_list[j]:
+                    wrong_position += 1
+                    temp_code_list[j] = "0"
+                    break
+
+    print("Correct color correct position: {}".format(perfect_pins))
+    print("Correct color wrong position: {}".format(wrong_position))
+
+    return game_won
 
 print("Welcome to Mastermind!")
 
@@ -79,5 +108,6 @@ print("Welcome to Mastermind!")
 diff = chooseDifficulty()
 secret_code = makeCode(diff)
 user_guess = getGuess(diff)
+game_won = compareCode(secret_code, user_guess)
 
 print(secret_code)
