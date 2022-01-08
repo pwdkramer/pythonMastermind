@@ -80,21 +80,19 @@ def compareCode(secret_code, user_guess):
         game_won = True
         perfect_pins = 4
     else: #provide feedback on guess
-        temp_code = ""
-        temp_guess = ""
+        temp_code = []
+        temp_guess = []
         for i in range(len(user_guess)): #check for perfect pins
             if user_guess[i] == secret_code[i]:
                 perfect_pins += 1
             else:
-                temp_code += secret_code[i]
-                temp_guess += user_guess[i]
-        temp_code_list = [char for char in temp_code]
-        temp_guess_list = [char for char in temp_guess]
-        for i in range(len(temp_guess_list)): #check for right color wrong position
-            for j in range(len(temp_code_list)):
-                if temp_guess_list[i] == temp_code_list[j]:
+                temp_code.append(secret_code[i])
+                temp_guess.append(user_guess[i])
+        for i in range(len(temp_guess)): #check for right color wrong position
+            for j in range(len(temp_code)):
+                if temp_guess[i] == temp_code[j]:
                     wrong_position += 1
-                    temp_code_list[j] = "0"
+                    temp_code[j] = "0"
                     break
 
     print("Correct color correct position: {}".format(perfect_pins))
@@ -107,10 +105,12 @@ def playGame(diff, secret_code):
     turn_count = 1
     game_won = False
     while turn_count <= 10 and game_won == False:
+        print("---------------------------------")
         print("Turn {}:".format(turn_count))
         user_guess = getGuess(diff)
         game_won = compareCode(secret_code, user_guess)
         turn_count += 1
+    print("---------------------------------")
     if game_won == True:
         print("Congratulations! You win!")
     else:
