@@ -44,7 +44,6 @@ def makeCode(diff):
 #get guess from user
 def getGuess(diff):
     valid_colors = "RYGU"
-    print("Please enter your guess of four colors.")
     if diff == "n":
         print("The colors to choose from are: R, Y, G, U")
     elif diff == "h":
@@ -75,11 +74,12 @@ def getGuess(diff):
 #compare userGuess with secret code and provide feedback
 def compareCode(secret_code, user_guess):
     game_won = False
+    perfect_pins = 0
+    wrong_position = 0
     if secret_code == user_guess: #correct guess, user wins
         game_won = True
+        perfect_pins = 4
     else: #provide feedback on guess
-        perfect_pins = 0
-        wrong_position = 0
         temp_code = ""
         temp_guess = ""
         for i in range(len(user_guess)): #check for perfect pins
@@ -102,12 +102,23 @@ def compareCode(secret_code, user_guess):
 
     return game_won
 
-print("Welcome to Mastermind!")
+#game loop with turn counter
+def playGame(diff, secret_code):
+    turn_count = 1
+    game_won = False
+    while turn_count <= 10 and game_won == False:
+        print("Turn {}:".format(turn_count))
+        user_guess = getGuess(diff)
+        game_won = compareCode(secret_code, user_guess)
+        turn_count += 1
+    if game_won == True:
+        print("Congratulations! You win!")
+    else:
+        print("Game over...")
+    print("The secret code was: {}".format(secret_code))
 
-#select difficulty
+#main game
+print("Welcome to Mastermind!")
 diff = chooseDifficulty()
 secret_code = makeCode(diff)
-user_guess = getGuess(diff)
-game_won = compareCode(secret_code, user_guess)
-
-print(secret_code)
+playGame(diff, secret_code)
